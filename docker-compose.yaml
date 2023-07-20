@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  pg10-25-db:
+    container_name: pg10-25-db
+    image: postgis/postgis:10-2.5
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: region
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: pg_isready -U postgres -d postgres
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+  pg10-30-db:
+    container_name: pg10-30-db
+    image: postgis/postgis:10-3.0
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: region
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: pg_isready -U postgres -d postgres
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
